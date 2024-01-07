@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    </head>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<style>
+    *{
+        color: white;
+    }
+    body {
+    
+margin: 0px;
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+  
+}
+
+#quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+
+    /* border: 2px solid red; */
+    /* margin-top: 13%; */
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 26px;
+    cursor: pointer;
+
+    color: rgb(0, 0, 0);
+    padding: 10px 70px;  
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+    background-color: rgb(114, 255, 114);
+}
+
+button:hover{
+    background-color: rgb(21, 24, 21);
+    color: white;
+}
+
+#score {
+    color: white;
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.same{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+
+    background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)) ,url('./picture/backblue0ne.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* position: relative; */
+    width: 100%;
+    height: 100vh;
+}
+
+
+@media screen and (max-width:767px ) {
+    .same{
+        justify-content: center;
+        flex-direction: column;
+        height: 90vh;
+        width: 100%;
+        margin: 0px;
+        /* border: 2px solid red; */
+
+        
+    }
+
+    .pick img{
+        display: none;
+    }
+    #quiz-container{
+
+padding: 10px;
+    }
+    #quiz-container h2{
+font-size: 20px;
+width: 100%;
+    }
+    button {
+    margin-top: 10px;
+    /* padding: 10px 20px; */
+    font-size: 20px;
+    cursor: pointer;
+
+    color: rgb(0, 0, 0);
+    padding: 10px 40px;  
+    border-radius: 10px;
+    font-weight: bold;
+    border: none;
+    background-color: rgb(114, 255, 114);
+}
+
+}
+
+</style>
+<body>
+
+    
+    <div class="same">
+        <div class="pick">
+            <img src="./picture/blue.png" alt="" width="400px" data-aos="fade">
+        </div>
+    <div id="quiz-container" data-aos="fade">
+        <h2 id="question"></h2>
+        <div id="options-container" class="options" data-aos="fade-in"></div>
+        <button onclick="checkAnswer()">Submit Answer</button>
+        <p id="score">Score: <span id="score-value">0</span></p>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    <script>
+        // ---------------- quiz --------------------
+
+var currentQuestionIndex = 0;
+        var score = 0;
+        
+        var questions = [
+            {
+                question: "What is the smallest heading in HTML by default?",
+                options: ["H1", "H3", "H6", "H2"],
+                correctAnswer: "H6"
+            },
+            {
+                question: "What does HTML stand for?",
+                options: ["Hyper and text Markup Language", "Hyper text Markup Language", "Home tool markup language", "Hyper text marka langage"],
+                correctAnswer: "Hyper text Markup Language"
+            },
+            {
+                question: "What is the correct HTML element for inserting a line break?",
+                options: ["<break>", "<br>", "<brr>", "<lb>"],
+                correctAnswer: "<br>"
+            },
+            {
+                question: "How can you open a link in a new tab/browser window?",
+                options: ["<a href = 'url' new >", "<a href= 'url' >", "<a href = 'url' target >", "<a href= 'url' target ='_blank' >"],
+                correctAnswer: "<a href= 'url' target ='_blank' >"
+            },
+            {
+                question: "Inline elements are normally displayed without starting a new line.",
+                options: ["True", "False"],
+                correctAnswer: "True"
+            },
+            {
+                question: "wich type is textarea input",
+                options: ["<input type = 'textbox' >", "<textbox>", "<input type = 'textarea' >", " <textboxinput>"],
+                correctAnswer: "<input type = 'textarea' >"
+            },
+            {
+                question: "How to create an Un ordered list in HTML?",
+                options: ["ul", "ol", "dl", "dt"],
+                correctAnswer: "ul"
+            },
+            {
+                question: "How to create an link in HTML?",
+                options: ["<button>", "<a>", "<img>", "<dt>"],
+                correctAnswer: "<a>"
+            },           
+            {
+                question: "which is self closing tag?",
+                options: ["<br>", "<h1>", "<section>", "<body>"],
+                correctAnswer: "<br>"
+            },           
+            {
+                question: "which is block line element",
+                options: ["<a>", "<br>", "<div>", "<img>"],
+                correctAnswer: "<div>"
+            }
+        ];
+        
+        function loadQuestion() {
+            var questionElement = document.getElementById("question");
+            var optionsContainer = document.getElementById("options-container");
+            var scoreElement = document.getElementById("score-value");
+        
+            var currentQuestion = questions[currentQuestionIndex];
+        
+            questionElement.textContent = currentQuestion.question;
+            optionsContainer.innerHTML = "";
+        
+            currentQuestion.options.forEach(function(option) {
+                var button = document.createElement("button");
+                button.textContent = option;
+                button.onclick = function() {
+                    checkAnswer(option);
+                };
+                optionsContainer.appendChild(button);
+            });
+        
+            scoreElement.textContent = score;
+        }
+        
+        function checkAnswer(selectedOption) {
+            var currentQuestion = questions[currentQuestionIndex];
+        
+            if (selectedOption === currentQuestion.correctAnswer) {
+                score++;
+            }
+        
+            currentQuestionIndex++;
+        
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                alert("Quiz completed! Your score is: " + score);
+                resetQuiz();
+            }
+        }
+        
+        function resetQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            loadQuestion();
+        }
+        
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                alert("Quiz completed! Your score is: " + score);
+                resetQuiz();
+            }
+        }
+        
+        // Load the first question
+        loadQuestion();
+
+        </script>
+
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+
+<script>
+    AOS.init({
+      offset: 80,
+      duration: 1200,
+      delay: 7,
+      easing: 'ease-out',
+    }
+    );
+  </script>
+</body>
+</html>

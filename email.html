@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Generator</title>
+    <link rel="stylesheet" href="./style.css">
+    <style>
+            body {
+                font-family: Arial, sans-serif;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+        #email {
+            font-size: 18px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+<body>
+
+    
+<div class="same" >
+<div class="ismg">
+    <img src="./picture/rtt.png" alt="" width="400px" data-aos="slide-up" id="emg">
+</div>
+
+    <div id="mean" data-aos="slide-down">
+        <h2>Email Generator</h2>
+        <p id="email" style="color: rgb(254, 255, 255);"></p>
+        <button onclick="generateEmail()">Generate Email</button>
+    </div>
+   
+</div>
+    <script src="./script.js">
+
+    </script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+
+    <script>
+        AOS.init({
+          offset: 80,
+          duration: 500,
+          delay: 7,
+          easing: 'ease-out',
+        }
+        );
+      </script>
+
+</body>
+</html>
